@@ -12,16 +12,20 @@ const UserDetails = () => {
     setLoading(true);
     setUser(null);
 
-    fetch(`https://jsonplaceholder.typicode.com/users/${id}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setUser(data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-        setLoading(false);
-      });
+    const timer = setTimeout(() => {
+      fetch(`https://jsonplaceholder.typicode.com/users/${id}`)
+        .then((response) => response.json())
+        .then((data) => {
+          setUser(data);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log(error);
+          setLoading(false);
+        });
+    }, 500);
+
+    return () => clearTimeout(timer);
   }, [id]);
 
   if (loading) {
@@ -35,7 +39,6 @@ const UserDetails = () => {
   return (
     <div>
       <h1>User Details</h1>
-
       <p>Name: {user.name}</p>
       <p>Username: {user.username}</p>
       <p>Email: {user.email}</p>
